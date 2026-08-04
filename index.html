@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Analisis Strategis TKA & Refleksi - SMAN 2 Bitung</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .glass-panel {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(100, 116, 139, 0.3);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen flex flex-col transition-colors duration-300">
+
+    <!-- WELCOME / LANDING OVERLAY -->
+    <div id="welcome-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white transition-opacity duration-700 p-4">
+        <div class="max-w-4xl w-full bg-white/10 dark:bg-slate-900/60 glass-panel border border-white/10 rounded-3xl p-6 md:p-12 shadow-2xl text-center relative overflow-hidden">
+            <!-- Decorative Glow Elements -->
+            <div class="absolute -top-24 -left-24 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -right-24 w-72 h-72 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="relative z-10 space-y-6">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-xs font-semibold uppercase tracking-widest">
+                    <i class="fas fa-school"></i> SMAN 2 Bitung • Sistem Analisis Kurikulum
+                </div>
+
+                <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-200 via-white to-emerald-200 leading-tight">
+                    Portal Analisis Integratif TKA & Refleksi Perkembangan Siswa
+                </h1>
+
+                <p class="text-slate-300 max-w-2xl mx-auto text-sm md:text-base leading-relaxed">
+                    Kajian Komprehensif Data Refleksi 537 Siswa (Literasi, Numerasi, Karakter) Terintegrasi dengan Capaian Try Out 1 TKA (Matematika, B. Indonesia, B. Inggris).
+                </p>
+
+                <!-- Core Stats Cards Preview -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 my-8 text-left">
+                    <div class="bg-white/5 border border-white/10 p-3 md:p-4 rounded-2xl">
+                        <p class="text-xs text-slate-400 font-medium">Total Responden</p>
+                        <p class="text-xl md:text-2xl font-bold text-blue-400">537 Siswa</p>
+                        <p class="text-[10px] text-slate-400 mt-1">34 Rombel (X, XI, XII)</p>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 p-3 md:p-4 rounded-2xl">
+                        <p class="text-xs text-slate-400 font-medium">Rata-rata TKA (TO 1)</p>
+                        <p class="text-xl md:text-2xl font-bold text-amber-400">58.96</p>
+                        <p class="text-[10px] text-slate-400 mt-1">Kategori: Sedang</p>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 p-3 md:p-4 rounded-2xl">
+                        <p class="text-xs text-slate-400 font-medium">Skor Karakter</p>
+                        <p class="text-xl md:text-2xl font-bold text-emerald-400">4.09 / 5.00</p>
+                        <p class="text-[10px] text-slate-400 mt-1">Modal Sosial Utama</p>
+                    </div>
+                    <div class="bg-white/5 border border-white/10 p-3 md:p-4 rounded-2xl">
+                        <p class="text-xs text-slate-400 font-medium">Skor Numerasi</p>
+                        <p class="text-xl md:text-2xl font-bold text-rose-400">3.30 / 5.00</p>
+                        <p class="text-[10px] text-slate-400 mt-1">Area Intervensi Utama</p>
+                    </div>
+                </div>
+
+                <!-- Developer Attribution & CTA Button -->
+                <div class="pt-4 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center gap-3 text-left">
+                        <div class="w-11 h-11 rounded-full bg-blue-600 flex items-center justify-center font-bold text-white shadow-lg border border-blue-400">
+                            FT
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400 uppercase font-semibold">Dikembangkan Oleh:</p>
+                            <p class="text-sm font-bold text-white">Fredynandus Takalamingan, S.Si</p>
+                            <p class="text-xs text-blue-300">Wakil Kepala Sekolah Bidang Kurikulum</p>
+                        </div>
+                    </div>
+
+                    <button onclick="enterDashboard()" class="w-full md:w-auto px-8 py-3.5 bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-500 hover:to-emerald-500 text-white font-bold rounded-2xl shadow-xl hover:shadow-blue-500/25 transition-all duration-300 transform hover:-translate-y-0.5 flex items-center justify-center gap-3 group">
+                        <span>Buka Dashboard Analisis</span>
+                        <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APPLICATION CONTAINER -->
+    <div id="main-dashboard" class="flex-grow flex flex-col hidden min-h-screen">
+        
+        <!-- HEADER / NAVIGATION BAR -->
+        <header class="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <!-- Brand Title -->
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-bold shadow-md">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div>
+                            <h1 class="font-bold text-slate-900 dark:text-white text-base md:text-lg leading-tight">Analisis Strategis TKA & Refleksi</h1>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">SMAN 2 Bitung • Bidang Kurikulum</p>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Links (Desktop) -->
+                    <nav class="hidden lg:flex items-center gap-1 text-xs font-semibold">
+                        <button onclick="scrollToSection('ringkasan')" class="nav-btn px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Demografi & Overview</button>
+                        <button onclick="scrollToSection('refleksi')" class="nav-btn px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Refleksi (537 Siswa)</button>
+                        <button onclick="scrollToSection('tryout')" class="nav-btn px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Detail TO 1 TKA</button>
+                        <button onclick="scrollToSection('integrasi')" class="nav-btn px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">Analisis Integrasi</button>
+                        <button onclick="scrollToSection('actionplan')" class="nav-btn px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">RTL & Action Plan</button>
+                    </nav>
+
+                    <!-- Actions (Dark Mode Toggle & Developer Info) -->
+                    <div class="flex items-center gap-3">
+                        <button id="theme-toggle" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition" title="Ganti Mode Terang/Gelap">
+                            <i id="theme-toggle-dark-icon" class="fas fa-moon hidden"></i>
+                            <i id="theme-toggle-light-icon" class="fas fa-sun"></i>
+                        </button>
+
+                        <div class="hidden sm:flex items-center gap-3 border-l border-slate-200 dark:border-slate-800 pl-3">
+                            <div class="text-right">
+                                <p class="text-xs font-bold text-slate-800 dark:text-slate-200">Fredynandus Takalamingan, S.Si</p>
+                                <p class="text-[10px] text-slate-500 dark:text-slate-400">Wakasek Kurikulum</p>
+                            </div>
+                            <div class="w-8 h-8 rounded-full bg-blue-600 text-white text-xs font-bold flex items-center justify-center">
+                                FT
+                            </div>
+                        </div>
+
+                        <!-- Mobile Menu Button -->
+                        <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation Menu -->
+            <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 pt-2 pb-4 space-y-1 text-sm font-medium">
+                <button onclick="scrollToSection('ringkasan'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">Demografi & Overview</button>
+                <button onclick="scrollToSection('refleksi'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">Refleksi (537 Siswa)</button>
+                <button onclick="scrollToSection('tryout'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">Detail TO 1 TKA</button>
+                <button onclick="scrollToSection('integrasi'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">Analisis Integrasi</button>
+                <button onclick="scrollToSection('actionplan'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800">RTL & Action Plan</button>
+            </div>
+        </header>
+
+        <!-- CONTENT WRAPPER -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12 flex-grow">
+            
+            <!-- SECTION 1: RINGKASAN EKSEKUTIF & DEMOGRAFI -->
+            <section id="ringkasan" class="space-y-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
+                    <div>
+                        <span class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest">Bagian 1</span>
+                        <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white">Ringkasan Eksekutif & Demografi Responden</h2>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Profil 537 siswa responden dari 34 Rombel SMAN 2 Bitung</p>
+                    </div>
+                    <div class="flex items-center gap-2 bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 px-4 py-2 rounded-2xl text-xs font-semibold border border-blue-200 dark:border-blue-800">
+                        <i class="fas fa-users text-sm"></i> Total Responden: 537 Siswa (34 Rombel)
+                    </div>
+                </div>
+
+                <!-- Demographic Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Total & Rombel Card -->
+                    <div class="bg-white dark:bg-slate-800/80 p-6 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-sm hover:shadow-md transition">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-bold text-sm text-slate-500 dark:text-slate-400">Cakupan Responden</h3>
+                            <div class="w-8 h-8 rounded-xl bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center text-sm">
+                                <i class="fas fa-id-card"></i>
+                            </div>
+                        </div>
+                        <div class="text-3xl font-extrabold text-slate-900 dark:text-white">537 <span class="text-base font-normal text-slate-500">Siswa</span></div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Tersebar secara proporsional di <span class="font-bold text-slate-700 dark:text-slate-300">34 Rombel</span> kelas X, XI, dan XII.</p>
+                    </div>
+
+                    <!-- Gender Distribution Card -->
+                    <div class="bg-white dark:bg-slate-800/80 p-6 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-sm hover:shadow-md transition">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-bold text-sm text-slate-500 dark:text-slate-400">Distribusi Gender</h3>
+                            <div class="w-8 h-8 rounded-xl bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 flex items-center justify-center text-sm">
+                                <i class="fas fa-venus-mars"></i>
+                            </div>
+                        </div>
+                        <div class="space-y-2 mt-3">
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold mb-1">
+                                    <span class="text-slate-700 dark:text-slate-300"><i class="fas fa-female text-pink-500 mr-1"></i> Perempuan</span>
+                                    <span>312 siswa (58,1%)</span>
+                                </div>
+                                <div class="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-2">
+                                    <div class="bg-pink-500 h-2 rounded-full" style="width: 58.1%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs font-semibold mb-1">
+                                    <span class="text-slate-700 dark:text-slate-300"><i class="fas fa-male text-blue-500 mr-1"></i> Laki-laki</span>
+                                    <span>225 siswa (41,9%)</span>
+                                </div>
+                                <div class="w-full bg-slate-100 dark:bg-slate-700 rounded-full h-2">
+                                    <div class="bg-blue-600 h-2 rounded-full" style="width: 41.9%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grade Level Card -->
+                    <div class="bg-white dark:bg-slate-800/80 p-6 rounded-2xl border border-slate-200 dark:border-slate-700/60 shadow-sm hover:shadow-md transition">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-bold text-sm text-slate-500 dark:text-slate-400">Distribusi Tingkat Kelas</h3>
+                            <div class="w-8 h-8 rounded-xl bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-sm">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                        </div>
+                        <div class="space-y-1.5 text-xs font-medium mt-3">
+                            <div class="flex justify-between items-center p-1.5 rounded-lg bg-slate-50 dark:bg-slate-700/40">
+                                <span>Kelas X</span>
+                                <span class="font-bold text-emerald-600 dark:text-emerald-400">234 siswa (43,6%)</span>
+                            </div>
+                            <div class="flex justify-between items-center p-1.5 rounded-lg bg-slate-50 dark:bg-slate-700/40">
+                                <span>Kelas XI</span>
+                                <span class="font-bold text-emerald-600 dark:text-emerald-400">175 siswa (32,6%)</span>
+                            </div>
+                            <div class="flex justify-between items-center p-1.5 rounded-lg bg-slate-50 dark:bg-slate-700/40">
+                                <span>Kelas XII</span>
+                                <span class="font-bold text-emerald-600 dark:text-emerald-400">128 siswa (23,8%)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: HASIL REFLEKSI SIKAP BELAJAR (537 SISWA) -->
+            <section id="refleksi" class="space-y-8">
+                <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+                    <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">Bagian 2</span>
+                    <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white">Hasil Analisis Refleksi Perkembangan (537 Responden)</h2>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Peta Kemampuan Literasi, Numerasi, dan Karakter Siswa (Skala 1.00 - 5.00)</p>
+                </div>
+
+                <!-- Score Overview Table & Summary Cards -->
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                    <div class="lg:col-span-1 space-y-4">
+                        <div class="bg-gradient-to-br from-emerald-600 to-teal-700 text-white p-6 rounded-2xl shadow-lg">
+                            <p class="text-xs font-semibold uppercase tracking-wider text-emerald-100">Rata-Rata Total Sekolah</p>
+                            <h3 class="text-4xl font-extrabold mt-2">3.68 <span class="text-lg font-normal text-emerald-200">/ 5.00</span></h3>
+                            <div class="mt-3 inline-block px-3 py-1 bg-white/20 rounded-full text-xs font-semibold backdrop-blur-sm">
+                                Kategori: Baik
+                            </div>
+                            <p class="text-xs text-emerald-100 mt-3 leading-relaxed">Median: 3.75 • Standar Deviasi: 0.67</p>
+                        </div>
+
+                        <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 text-xs space-y-3">
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-slate-700 pb-2">Ringkasan Dimensi (1 - 5)</h4>
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-600 dark:text-slate-400">Karakter</span>
+                                <span class="font-bold text-emerald-600 dark:text-emerald-400">4.09 (Sangat Baik)</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-600 dark:text-slate-400">Literasi</span>
+                                <span class="font-bold text-blue-600 dark:text-blue-400">3.64 (Baik)</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-600 dark:text-slate-400">Numerasi</span>
+                                <span class="font-bold text-rose-500">3.30 (Perlu Perhatian)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visual Charts Grid (Replica of User's Image Data) -->
+                    <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <h4 class="text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-4 flex items-center gap-2">
+                                <i class="fas fa-chart-bar text-blue-500"></i> Rata-Rata Skor per Dimensi
+                            </h4>
+                            <div class="h-56">
+                                <canvas id="chartDimensi"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <h4 class="text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-4 flex items-center gap-2">
+                                <i class="fas fa-list-ol text-emerald-500"></i> Rata-Rata per Indikator
+                            </h4>
+                            <div class="h-56">
+                                <canvas id="chartIndikator"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <h4 class="text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-4 flex items-center gap-2">
+                                <i class="fas fa-venus-mars text-purple-500"></i> Dimensi Berdasarkan Gender
+                            </h4>
+                            <div class="h-56">
+                                <canvas id="chartGender"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <h4 class="text-xs font-bold uppercase text-slate-500 dark:text-slate-400 mb-4 flex items-center gap-2">
+                                <i class="fas fa-layer-group text-amber-500"></i> Dimensi Berdasarkan Tingkat Kelas
+                            </h4>
+                            <div class="h-56">
+                                <canvas id="chartKelas"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Indicator Analysis Breakdown -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Karakter Card -->
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border-t-4 border-emerald-500 border-x border-b border-slate-200 dark:border-slate-700">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-900 dark:text-white">1. Dimensi Karakter</h3>
+                                <p class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">Rata-rata: 4.09 — Kekuatan Utama</p>
+                            </div>
+                            <span class="p-2 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 rounded-xl text-xs font-bold"><i class="fas fa-shield-alt"></i></span>
+                        </div>
+                        <ul class="space-y-3 text-xs text-slate-600 dark:text-slate-300">
+                            <li class="p-2 rounded-lg bg-slate-50 dark:bg-slate-700/50">
+                                <span class="font-bold text-slate-800 dark:text-slate-100">Kar 1 (Saling Menghargai): 4.23</span>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Indikator tertinggi di seluruh instrumen. Toleransi tinggi terhadap perbedaan pendapat saat berdiskusi.</p>
+                            </li>
+                            <li class="p-2 rounded-lg bg-slate-50 dark:bg-slate-700/50">
+                                <span class="font-bold text-slate-800 dark:text-slate-100">Kar 4 (Kejujuran Akademis): 4.05</span>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Sikap jujur mengerjakan tugas individu maupun kelompok tergolong tinggi.</p>
+                            </li>
+                            <li class="p-2 rounded-lg bg-slate-50 dark:bg-slate-700/50">
+                                <span class="font-bold text-slate-800 dark:text-slate-100">Kar 3 (Gotong Royong): 4.05</span>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Keaktifan dan kontribusi nyata dalam kerja kelompok tergolong solid.</p>
+                            </li>
+                            <li class="p-2 rounded-lg bg-slate-50 dark:bg-slate-700/50">
+                                <span class="font-bold text-slate-800 dark:text-slate-100">Kar 2 (Kedisiplinan & Tanggung Jawab): 4.03</span>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Komitmen mengumpulkan tugas tepat waktu dan memberikan hasil terbaik sudah baik.</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Literasi Card -->
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border-t-4 border-blue-500 border-x border-b border-slate-200 dark:border-slate-700">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-900 dark:text-white">2. Dimensi Literasi</h3>
+                                <p class="text-xs text-blue-600 dark:text-blue-400 font-semibold">Rata-rata: 3.64 — Cukup Baik</p>
+                            </div>
+                            <span class="p-2 bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-xl text-xs font-bold"><i class="fas fa-book-open"></i></span>
+                        </div>
+                        <ul class="space-y-3 text-xs text-slate-600 dark:text-slate-300">
+                            <li class="p-2 rounded-lg bg-slate-50 dark:bg-slate-700/50">
+                                <span class="font-bold text-slate-800 dark:text-slate-100">Lit 4 (Penggunaan Informasi): 3.88</span>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Siswa mampu menggunakan hasil bacaan untuk memperkuat argumen saat berdiskusi.</p>
+                            </li>
+                            <li class="p-2 rounded-lg bg-slate-50 dark:bg-slate-700/50">
+                                <span class="font-bold text-slate-800 dark:text-slate-100">Lit 2 (Pemahaman Makna): 3.70</span>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Siswa berusaha memahami esensi teks, bukan sekadar menyalin (copy-paste).</p>
+                            </li>
+                            <li class="p-2 rounded-lg bg-slate-50 dark:bg-slate-700/50">
+                                <span class="font-bold text-slate-800 dark:text-slate-100">Lit 3 (Berpikir Kritis): 3.54</span>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Kemampuan membedakan fakta dan opini masih perlu ditingkatkan.</p>
+                            </li>
+                            <li class="p-2 rounded-lg bg-slate-50 dark:bg-slate-700/50">
+                                <span class="font-bold text-slate-800 dark:text-slate-100">Lit 1 (Membaca Mandiri): 3.45</span>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Indikator terendah di literasi. Kebiasaan membaca bahan sebelum kelas dimulai masih rendah.</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Numerasi Card -->
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border-t-4 border-rose-500 border-x border-b border-slate-200 dark:border-slate-700">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-900 dark:text-white">3. Dimensi Numerasi</h3>
+                                <p class="text-xs text-rose-500 font-semibold">Rata-rata: 3.30 — Area Evaluasi Utama</p>
+                            </div>
+                            <span class="p-2 bg-rose-100 dark:bg-rose-900/50 text-rose-500 rounded-xl text-xs font-bold"><i class="fas fa-calculator"></i></span>
+                        </div>
+                        <ul class="space-y-3 text-xs text-slate-600 dark:text-slate-300">
+                            <li class="p-2 rounded-lg bg-slate-50 dark:bg-slate-700/50">
+                                <span class="font-bold text-slate-800 dark:text-slate-100">Num 3 (Penerapan Praktis): 3.42</span>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Mampu menerapkan perhitungan sederhana untuk pengambilan keputusan harian.</p>
+                            </li>
+                            <li class="p-2 rounded-lg bg-slate-50 dark:bg-slate-700/50">
+                                <span class="font-bold text-slate-800 dark:text-slate-100">Num 1 (Kepercayaan Diri): 3.29</span>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Rasa percaya diri siswa saat berhadapan dengan angka/data masih tergolong sedang.</p>
+                            </li>
+                            <li class="p-2 rounded-lg bg-slate-50 dark:bg-slate-700/50">
+                                <span class="font-bold text-slate-800 dark:text-slate-100">Num 4 (Koneksi Kontekstual): 3.27</span>
+                                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Ketertarikan menghubungkan angka dengan fenomena dunia nyata masih terbatas.</p>
+                            </li>
+                            <li class="p-2 rounded-lg bg-slate-50 dark:bg-slate-700/50">
+                                <span class="font-bold text-slate-800 dark:text-slate-100">Num 2 (Interpretasi Visual Data): 3.22</span>
+                                <p class="text-[11px] font-semibold text-rose-600 dark:text-rose-400 mt-0.5">Indikator terendah dari seluruh instrumen. Siswa kesulitan membaca grafik/tabel.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Demographics Insight Callout -->
+                <div class="bg-slate-100 dark:bg-slate-800/60 p-5 rounded-2xl border border-slate-200 dark:border-slate-700 text-xs leading-relaxed space-y-2">
+                    <h4 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="fas fa-search text-blue-500"></i> Temuan Komparatif Demografis Responden:
+                    </h4>
+                    <p><span class="font-bold">Berdasarkan Gender:</span> Literasi seimbang (L: 3,65 vs P: 3,64). Numerasi siswa Laki-laki (3,43) lebih tinggi dibanding Perempuan (3,20). Namun Karakter Perempuan (4,18) unggul signifikan dibanding Laki-laki (3,97).</p>
+                    <p><span class="font-bold">Berdasarkan Tingkat Kelas:</span> Literasi stabil di semua jenjang (X, XI, XII: 3,64). Numerasi puncak di Kelas XI (3,32) lalu turun di Kelas XII (3,26). Karakter meningkat bertahap seiring jenjang (X: 4,07 → XI: 4,08 → XII: 4,14).</p>
+                </div>
+            </section>
+
+            <!-- SECTION 3: ANALISIS HASIL TRY OUT 1 TKA PER MATA PELAJARAN -->
+            <section id="tryout" class="space-y-8">
+                <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+                    <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest">Bagian 3</span>
+                    <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white">Analisis Hasil Try Out 1 TKA per Mata Pelajaran</h2>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Evaluasi Capaian Kompetensi, Partisipasi, dan Sebaran Nilai Siswa</p>
+                </div>
+
+                <!-- Subject Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    
+                    <!-- MATEMATIKA -->
+                    <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col shadow-sm hover:shadow-md transition">
+                        <div class="bg-gradient-to-r from-amber-500 to-orange-600 p-5 text-white">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-bold uppercase tracking-wider bg-black/20 px-3 py-1 rounded-full">Matematika</span>
+                                <span class="text-xs"><i class="fas fa-users mr-1"></i> Partisipasi: 88.21%</span>
+                            </div>
+                            <h3 class="text-3xl font-extrabold">50.3 <span class="text-sm font-normal opacity-90">/ 100</span></h3>
+                            <p class="text-xs text-amber-100 mt-1">Kategori: Sedang • Terdaftar: 492 • Ikut: 434 (Belum: 58 siswa / 11.79%)</p>
+                        </div>
+
+                        <div class="p-5 space-y-4 flex-grow text-xs">
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-slate-700 pb-2">Rincian Kompetensi & Sebaran Siswa</h4>
+                            
+                            <div class="space-y-2">
+                                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-700/40 space-y-1">
+                                    <div class="flex justify-between font-bold">
+                                        <span>Trigonometri</span>
+                                        <span class="text-emerald-600 dark:text-emerald-400">60.14 (Sedang)</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 dark:text-slate-400">Sebaran (Baik/Sedang/Cukup/Rendah): <span class="font-bold text-slate-700 dark:text-slate-200">245 / 66 / 71 / 52</span></p>
+                                </div>
+
+                                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-700/40 space-y-1">
+                                    <div class="flex justify-between font-bold">
+                                        <span>Data & Peluang</span>
+                                        <span class="text-blue-600 dark:text-blue-400">51.56 (Sedang)</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 dark:text-slate-400">Sebaran: <span class="font-bold text-slate-700 dark:text-slate-200">209 / 99 / 69 / 57</span></p>
+                                </div>
+
+                                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-700/40 space-y-1">
+                                    <div class="flex justify-between font-bold">
+                                        <span>Geometri</span>
+                                        <span class="text-blue-600 dark:text-blue-400">51.09 (Sedang)</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 dark:text-slate-400">Sebaran: <span class="font-bold text-slate-700 dark:text-slate-200">151 / 146 / 89 / 48</span></p>
+                                </div>
+
+                                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-700/40 space-y-1">
+                                    <div class="flex justify-between font-bold">
+                                        <span>Bilangan</span>
+                                        <span class="text-amber-600 dark:text-amber-400">45.97 (Cukup)</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 dark:text-slate-400">Sebaran: <span class="font-bold text-slate-700 dark:text-slate-200">151 / 129 / 85 / 69</span></p>
+                                </div>
+
+                                <div class="p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 space-y-1">
+                                    <div class="flex justify-between font-bold text-rose-700 dark:text-rose-300">
+                                        <span>Aljabar (Titik Lemah)</span>
+                                        <span>42.80 (Cukup)</span>
+                                    </div>
+                                    <p class="text-[10px] text-rose-600 dark:text-rose-400">Sebaran: <span class="font-bold">116 / 125 / 129 / 64</span></p>
+                                </div>
+                            </div>
+
+                            <div class="p-3 bg-amber-50 dark:bg-amber-950/40 rounded-xl border border-amber-200 dark:border-amber-800 text-[11px] leading-relaxed">
+                                <span class="font-bold text-amber-800 dark:text-amber-300">Temuan Utama:</span> Aljabar & Bilangan adalah titik lemah fondasi dasar. Sementara Trigonometri (60.14) & Data/Peluang (51.56) merupakan potensi terbesar dengan 245 siswa di kategori "Baik".
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BAHASA INDONESIA -->
+                    <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col shadow-sm hover:shadow-md transition">
+                        <div class="bg-gradient-to-r from-emerald-600 to-teal-600 p-5 text-white">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-bold uppercase tracking-wider bg-black/20 px-3 py-1 rounded-full">Bahasa Indonesia</span>
+                                <span class="text-xs"><i class="fas fa-users mr-1"></i> Partisipasi: 91.87%</span>
+                            </div>
+                            <h3 class="text-3xl font-extrabold">61.26 <span class="text-sm font-normal opacity-90">/ 100</span></h3>
+                            <p class="text-xs text-emerald-100 mt-1">Kategori: Cukup Baik • Terdaftar: 492 • Ikut: 452 (Belum: 40 siswa / 8.13%)</p>
+                        </div>
+
+                        <div class="p-5 space-y-4 flex-grow text-xs">
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-slate-700 pb-2">Rincian Kompetensi & Sebaran Siswa</h4>
+                            
+                            <div class="space-y-2">
+                                <div class="p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 space-y-1">
+                                    <div class="flex justify-between font-bold text-emerald-700 dark:text-emerald-300">
+                                        <span>Pemahaman Tekstual</span>
+                                        <span>83.41 (Baik)</span>
+                                    </div>
+                                    <p class="text-[10px] text-emerald-600 dark:text-emerald-400">Sebaran (Baik/Sedang/Cukup/Rendah): <span class="font-bold">329 / 82 / 31 / 10</span></p>
+                                </div>
+
+                                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-700/40 space-y-1">
+                                    <div class="flex justify-between font-bold">
+                                        <span>Pemahaman Inferensial</span>
+                                        <span class="text-amber-600 dark:text-amber-400">57.55 (Sedang)</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 dark:text-slate-400">Sebaran: <span class="font-bold text-slate-700 dark:text-slate-200">148 / 159 / 95 / 50</span></p>
+                                </div>
+
+                                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-700/40 space-y-1">
+                                    <div class="flex justify-between font-bold">
+                                        <span>Evaluasi & Apresiasi</span>
+                                        <span class="text-amber-600 dark:text-amber-400">52.58 (Sedang)</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 dark:text-slate-400">Sebaran: <span class="font-bold text-slate-700 dark:text-slate-200">34 / 255 / 104 / 59</span></p>
+                                </div>
+                            </div>
+
+                            <div class="p-3 bg-emerald-50 dark:bg-emerald-950/40 rounded-xl border border-emerald-200 dark:border-emerald-800 text-[11px] leading-relaxed">
+                                <span class="font-bold text-emerald-800 dark:text-emerald-300">Temuan Utama:</span> Sangat kuat di pemahaman tekstual (329 siswa Baik). Namun masih perlu penguatan di Berpikir Tingkat Tinggi (HOTS) yaitu Inferensial (57.55) & Evaluasi/Apresiasi (52.58).
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BAHASA INGGRIS -->
+                    <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col shadow-sm hover:shadow-md transition">
+                        <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-5 text-white">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-bold uppercase tracking-wider bg-black/20 px-3 py-1 rounded-full">Bahasa Inggris</span>
+                                <span class="text-xs"><i class="fas fa-users mr-1"></i> Partisipasi: 91.67%</span>
+                            </div>
+                            <h3 class="text-3xl font-extrabold">65.33 <span class="text-sm font-normal opacity-90">/ 100</span></h3>
+                            <p class="text-xs text-blue-100 mt-1">Kategori: Sedang / Cukup Baik • Terdaftar: 492 • Ikut: 451 (Belum: 41 siswa / 8.33%)</p>
+                        </div>
+
+                        <div class="p-5 space-y-4 flex-grow text-xs">
+                            <h4 class="font-bold text-slate-800 dark:text-slate-200 border-b border-slate-100 dark:border-slate-700 pb-2">Rincian Kompetensi & Sebaran Siswa</h4>
+                            
+                            <div class="space-y-2">
+                                <div class="p-2.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800/50 space-y-1">
+                                    <div class="flex justify-between font-bold text-indigo-700 dark:text-indigo-300">
+                                        <span>Evaluasi & Apresiasi</span>
+                                        <span>69.73 (Sedang/Tinggi)</span>
+                                    </div>
+                                    <p class="text-[10px] text-indigo-600 dark:text-indigo-400">Sebaran (Baik/Sedang/Cukup/Rendah): <span class="font-bold">245 / 105 / 64 / 37</span></p>
+                                </div>
+
+                                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-700/40 space-y-1">
+                                    <div class="flex justify-between font-bold">
+                                        <span>Pemahaman Tekstual</span>
+                                        <span class="text-blue-600 dark:text-blue-400">64.17 (Sedang)</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 dark:text-slate-400">Sebaran: <span class="font-bold text-slate-700 dark:text-slate-200">185 / 140 / 71 / 55</span></p>
+                                </div>
+
+                                <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-700/40 space-y-1">
+                                    <div class="flex justify-between font-bold">
+                                        <span>Pemahaman Inferensial</span>
+                                        <span class="text-blue-600 dark:text-blue-400">62.08 (Sedang)</span>
+                                    </div>
+                                    <p class="text-[10px] text-slate-500 dark:text-slate-400">Sebaran: <span class="font-bold text-slate-700 dark:text-slate-200">190 / 125 / 67 / 69</span></p>
+                                </div>
+                            </div>
+
+                            <div class="p-3 bg-blue-50 dark:bg-blue-950/40 rounded-xl border border-blue-200 dark:border-blue-800 text-[11px] leading-relaxed">
+                                <span class="font-bold text-blue-800 dark:text-blue-300">Temuan Utama:</span> Performa tergolong merata dan stabil (62-69). Evaluasi & Apresiasi tertinggi (69.73 / 245 siswa Baik). Namun 126-136 siswa masih terhambat oleh kosakata (vocabulary) pada tekstual & inferensial.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECTION 4: INTEGRASI ANALISIS SIKAP BELAJAR (REFLEKSI) VS TO 1 TKA -->
+            <section id="integrasi" class="space-y-8">
+                <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+                    <span class="text-xs font-bold text-purple-600 dark:text-purple-400 uppercase tracking-widest">Bagian 4</span>
+                    <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white">Analisis Integrasi: Refleksi Sikap Belajar vs Capaian TKA</h2>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Korelasi Psikologis dan Sikap Belajar Siswa Terhadap Performa Akademik Try Out 1</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <!-- Integrasi Matematika -->
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-orange-100 dark:bg-orange-950 text-orange-600 dark:text-orange-400 flex items-center justify-center font-bold text-lg">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-900 dark:text-white text-base">1. Matematika</h3>
+                                <p class="text-xs text-orange-500 font-semibold">Korelasi Kepercayaan Diri vs Performa Aljabar</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                            <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-700/40">
+                                <p class="font-bold text-slate-800 dark:text-slate-100 mb-1">🔗 Temuan Integrasi Data:</p>
+                                <p>Di TO 1 TKA, materi <span class="font-semibold text-rose-500">Aljabar (42.80)</span> dan <span class="font-semibold text-rose-500">Bilangan (45.97)</span> adalah titik lemah utama. Pada Refleksi, dimensi Numerasi terendah (3.30/5.00), dengan indikator <span class="font-semibold">Kepercayaan Diri (3.29)</span> & <span class="font-semibold">Interpretasi Grafik (3.22)</span> terendah di seluruh kuesioner.</p>
+                            </div>
+                            
+                            <div>
+                                <p class="font-bold text-slate-800 dark:text-slate-100 mb-1">💡 Analisa Pembelajaran:</p>
+                                <p>Ketidakpedean dan hambatan psikologis (<i class="italic">math anxiety</i>) siswa terhadap simbol aljabar dan data angka berbanding lurus dengan rendahnya nilai aljabar. Siswa mengalami cemas dan kurang pembiasaan (<i class="italic">mindset</i>) memanipulasi variabel sejak konsep dasar.</p>
+                            </div>
+
+                            <div class="p-3 bg-amber-50 dark:bg-amber-950/40 rounded-xl border border-amber-200 dark:border-amber-800/60 text-amber-900 dark:text-amber-200">
+                                <p class="font-bold mb-1">📌 Poin Action Plan Matematika:</p>
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li><span class="font-bold">Matrikulasi & Afirmasi Psikologis (M1-M2 Aug):</span> Pendekatan <i class="italic">low-stakes diagnostic practice</i> tanpa beban nilai untuk membangun kembali kepercayaandiri siswa.</li>
+                                    <li><span class="font-bold">Pemanfaatan Visual & Grafis:</span> Menyajikan rutin soal Aljabar & Bilangan berbasis visualisasi diagram/grafik kontekstual.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Integrasi Bahasa Indonesia -->
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-lg">
+                                <i class="fas fa-book-reader"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-900 dark:text-white text-base">2. Bahasa Indonesia</h3>
+                                <p class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">Ilusi Literasi vs Penalaran Tinggi (HOTS)</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                            <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-700/40">
+                                <p class="font-bold text-slate-800 dark:text-slate-100 mb-1">🔗 Temuan Integrasi Data:</p>
+                                <p>TO 1 sangat dominan di <span class="font-semibold text-emerald-600 dark:text-emerald-400">Pemahaman Tekstual (83.41)</span>, namun turun drastis di <span class="font-semibold text-amber-600">Inferensial (57.55)</span> & <span class="font-semibold text-amber-600">Evaluasi (52.58)</span>. Di Refleksi, siswa merasa paham makna teks (3.70), namun membaca sebelum kelas (3.45) & membedakan fakta vs opini (3.54) tergolong rendah.</p>
+                            </div>
+                            
+                            <div>
+                                <p class="font-bold text-slate-800 dark:text-slate-100 mb-1">💡 Analisa Pembelajaran:</p>
+                                <p>Siswa merasa sudah "membaca dan memahami" teks (persepsi 3.70), padahal pemahaman baru sebatas level permukaan (tekstual). Saat diuji inferensi & evaluasi HOTS, nilai jatuh karena kurangnya kebiasaan membaca mandiri sebelum kelas dan ketajaman membedakan fakta/opini.</p>
+                            </div>
+
+                            <div class="p-3 bg-emerald-50 dark:bg-emerald-950/40 rounded-xl border border-emerald-200 dark:border-emerald-800/60 text-emerald-900 dark:text-emerald-200">
+                                <p class="font-bold mb-1">📌 Poin Action Plan Bahasa Indonesia:</p>
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li><span class="font-bold">Bedah Fakta vs Opini:</span> Latihan eksplisit memilah kalimat fakta vs opini/bias pada berita harian.</li>
+                                    <li><span class="font-bold">Flipped Classroom:</span> Wajib membaca sebelum kelas (perbaiki Lit-1 3.45) dan menyusun 1 pertanyaan inferensial.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Integrasi Bahasa Inggris -->
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-lg">
+                                <i class="fas fa-language"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-900 dark:text-white text-base">3. Bahasa Inggris</h3>
+                                <p class="text-xs text-blue-600 dark:text-blue-400 font-semibold">Tantangan Vocab vs Potensi Literasi Kritis</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                            <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-700/40">
+                                <p class="font-bold text-slate-800 dark:text-slate-100 mb-1">🔗 Temuan Integrasi Data:</p>
+                                <p>Nilai TO 1 terendah di <span class="font-semibold text-blue-600">Inferensial (62.08)</span> & <span class="font-semibold text-blue-600">Tekstual (64.17)</span> karena kendala <i class="italic">vocabulary</i>. Uniknya, domain <span class="font-semibold text-indigo-600 dark:text-indigo-400">Evaluasi & Apresiasi justru tertinggi (69.73)</span>. Relevan dengan Refleksi tinggi pada indikator menggunakan bacaan untuk berpendapat (3.88).</p>
+                            </div>
+                            
+                            <div>
+                                <p class="font-bold text-slate-800 dark:text-slate-100 mb-1">💡 Analisa Pembelajaran:</p>
+                                <p>Siswa memiliki minat dan keberanian baik dalam menyikapi/menilai argumen teks kritis. Namun pemahaman detail teks terkendala oleh benteng kosakata (<i class="italic">vocabulary barrier</i>) dan struktur kalimat tersirat.</p>
+                            </div>
+
+                            <div class="p-3 bg-blue-50 dark:bg-blue-950/40 rounded-xl border border-blue-200 dark:border-blue-800/60 text-blue-900 dark:text-blue-200">
+                                <p class="font-bold mb-1">📌 Poin Action Plan Bahasa Inggris:</p>
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li><span class="font-bold">Vocabulary in Context:</span> Penguatan 5-10 <i class="italic">academic vocabulary</i> per hari yang terintegrasi langsung dengan topik teks evaluatif/kritis.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Integrasi Karakter & Gotong Royong -->
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold text-lg">
+                                <i class="fas fa-users-cog"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-slate-900 dark:text-white text-base">4. Karakter & Gotong Royong</h3>
+                                <p class="text-xs text-purple-600 dark:text-purple-400 font-semibold">Modal Sosial Utama Penggerak Intervensi TKA</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3 text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                            <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-700/40">
+                                <p class="font-bold text-slate-800 dark:text-slate-100 mb-1">🔗 Temuan Integrasi Data:</p>
+                                <p>Dimensi Karakter mencatatkan skor tertinggi (<span class="font-bold text-emerald-600 dark:text-emerald-400">4.09 / 5.00</span>). Indikator unggulan: <span class="font-semibold">Menghargai Pendapat (4.23)</span>, <span class="font-semibold">Kejujuran Akademis (4.05)</span>, dan <span class="font-semibold">Kontribusi Kelompok (4.05)</span>.</p>
+                            </div>
+                            
+                            <div>
+                                <p class="font-bold text-slate-800 dark:text-slate-100 mb-1">💡 Analisa Strategis Sekolah:</p>
+                                <p>Tingginya skor Karakter merupakan modal sosial terbesar SMAN 2 Bitung. Siswa memiliki iklim belajar saling mendukung, terbuka, dan siap bekerja sama tanpa rasa cemas terintimidasi.</p>
+                            </div>
+
+                            <div class="p-3 bg-purple-50 dark:bg-purple-950/40 rounded-xl border border-purple-200 dark:border-purple-800/60 text-purple-900 dark:text-purple-200">
+                                <p class="font-bold mb-1">📌 Poin Action Plan Lintas Mapel (Cross-Subject):</p>
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li><span class="font-bold">Peer Tutoring (Tutor Sebaya):</span> Merekrut 245 siswa kategori "Baik" Matematika/B.Inggris sebagai <i class="italic">study buddy</i>. Menjamin kelompok remedial tidak minder karena toleransi tinggi (4.23).</li>
+                                    <li><span class="font-bold">Kejujuran TO Berkala:</span> Menjaga budaya kejujuran (4.05) agar peta kemampuan murni siswa terdata valid.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- SECTION 5: ACTION PLAN & TIMELINE TERPADU (AGUSTUS - OKTOBER) -->
+            <section id="actionplan" class="space-y-8">
+                <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+                    <span class="text-xs font-bold text-rose-600 dark:text-rose-400 uppercase tracking-widest">Bagian 5</span>
+                    <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white">Rencana Tindak Lanjut (RTL) & Action Plan Terpadu</h2>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Roadmap Pelaksanaan Strategi Penguatan TKA (Agustus – Oktober)</p>
+                </div>
+
+                <!-- RTL Recommendations Summary -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="w-8 h-8 rounded-lg bg-rose-100 text-rose-600 flex items-center justify-center font-bold text-sm"><i class="fas fa-exclamation-triangle"></i></span>
+                            <h3 class="font-bold text-sm text-slate-900 dark:text-white">Penguatan Numerasi Visual</h3>
+                        </div>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Prioritas utama: Sediakan infografis, grafik, dan tabel visual dalam bahan ajar di semua mata pelajaran. Latih interpretasi data kontekstual harian.</p>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm"><i class="fas fa-book-reader"></i></span>
+                            <h3 class="font-bold text-sm text-slate-900 dark:text-white">Flipped Learning Literasi</h3>
+                        </div>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Terapkan strategi flipped classroom: beri instruksi/bacaan singkat sebelum kelas, dilanjutkan kuis diagnostik singkat untuk tingkatkan membaca mandiri.</p>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200 dark:border-slate-700">
+                        <div class="flex items-center gap-3 mb-2">
+                            <span class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-sm"><i class="fas fa-hands-helping"></i></span>
+                            <h3 class="font-bold text-sm text-slate-900 dark:text-white">Optimasi Karakter Sosial</h3>
+                        </div>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">Pertahankan budaya diskusi kelompok dan peer-learning (tutor sebaya), manfaatkan indikator Kar 1 (4.23) untuk membimbing siswa remedial.</p>
+                    </div>
+                </div>
+
+                <!-- Integrated Timeline Interactive Vertical Workflow -->
+                <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm relative overflow-hidden">
+                    <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-8 flex items-center gap-3">
+                        <i class="fas fa-calendar-alt text-blue-600"></i> Matriks Timeline Kegiatan Terpadu (Agustus – Oktober)
+                    </h3>
+
+                    <div class="relative border-l-2 border-blue-200 dark:border-blue-900 ml-4 md:ml-6 space-y-8">
+                        
+                        <!-- Timeline Item 1 -->
+                        <div class="relative pl-6 md:pl-8">
+                            <span class="absolute -left-3 top-0 w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold border-4 border-white dark:border-slate-800">1</span>
+                            <div class="bg-slate-50 dark:bg-slate-700/40 p-4 rounded-2xl border border-slate-200 dark:border-slate-600/50 space-y-2">
+                                <div class="flex flex-wrap items-center justify-between gap-2">
+                                    <h4 class="font-bold text-sm text-blue-600 dark:text-blue-400">Minggu I - II Agustus: Konsolidasi Administrasi & Mindset Psiko-Edukasi</h4>
+                                    <span class="px-2.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 text-[10px] font-bold">Fase Tahap 1</span>
+                                </div>
+                                <ul class="text-xs text-slate-600 dark:text-slate-300 space-y-1.5 list-disc list-inside">
+                                    <li><span class="font-semibold">TKA Admin:</span> Pelaksanaan TO Susulan (58 siswa Matematika, 40 siswa B.Ind, 41 siswa B.Ing) → Target keikutsertaan 100%.</li>
+                                    <li><span class="font-semibold">Psiko-Edukasi:</span> Build-up Kepercayaan Diri Numerasi (Injeksi motivasi & matrikulasi Aljabar/Bilangan dasar).</li>
+                                    <li><span class="font-semibold">Clustering & Grouping:</span> Pembentukan Kelompok Klinik (Cukup/Rendah) & Kelompok Pengayaan (Baik/Sedang) + Penunjukan Tutor Sebaya.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Timeline Item 2 -->
+                        <div class="relative pl-6 md:pl-8">
+                            <span class="absolute -left-3 top-0 w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold border-4 border-white dark:border-slate-800">2</span>
+                            <div class="bg-slate-50 dark:bg-slate-700/40 p-4 rounded-2xl border border-slate-200 dark:border-slate-600/50 space-y-2">
+                                <div class="flex flex-wrap items-center justify-between gap-2">
+                                    <h4 class="font-bold text-sm text-indigo-600 dark:text-indigo-400">Minggu III Aug - M2 September: Intervensi Intensif Pembelajaran di Kelas</h4>
+                                    <span class="px-2.5 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 text-[10px] font-bold">Fase Tahap 2</span>
+                                </div>
+                                <ul class="text-xs text-slate-600 dark:text-slate-300 space-y-1.5 list-disc list-inside">
+                                    <li><span class="font-semibold">Matematika:</span> Matrikulasi Aljabar/Bilangan (15-30 menit di awal KBM) + Drill Soal berbasis Visual & Grafik.</li>
+                                    <li><span class="font-semibold">Bahasa Indonesia:</span> Pembiasaan Reading Pre-Class (Flipped) + Bedah Soal HOTS (Inferensi, Evaluasi, Fakta vs Opini).</li>
+                                    <li><span class="font-semibold">Bahasa Inggris:</span> Program Daily Academic Vocabulary Booster (5-10 kata/hari) + Timed Reading Practice.</li>
+                                    <li><span class="font-semibold">Lintas Mapel:</span> Program Tutor Sebaya Intensif Sore (Memanfaatkan modal sosial Karakter 4.09).</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Timeline Item 3 -->
+                        <div class="relative pl-6 md:pl-8">
+                            <span class="absolute -left-3 top-0 w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs font-bold border-4 border-white dark:border-slate-800">3</span>
+                            <div class="bg-slate-50 dark:bg-slate-700/40 p-4 rounded-2xl border border-slate-200 dark:border-slate-600/50 space-y-2">
+                                <div class="flex flex-wrap items-center justify-between gap-2">
+                                    <h4 class="font-bold text-sm text-emerald-600 dark:text-emerald-400">Minggu III September: Evaluasi Progres Melalui Try Out 2 TKA</h4>
+                                    <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 text-[10px] font-bold">Fase Evaluasi</span>
+                                </div>
+                                <p class="text-xs text-slate-600 dark:text-slate-300">Uji keberhasilan intervensi: Mengukur kenaikan domain Aljabar/Bilangan serta soal HOTS Bahasa Indonesia dan Inggris. Target Kenaikan: +15%.</p>
+                            </div>
+                        </div>
+
+                        <!-- Timeline Item 4 -->
+                        <div class="relative pl-6 md:pl-8">
+                            <span class="absolute -left-3 top-0 w-6 h-6 rounded-full bg-amber-600 text-white flex items-center justify-center text-xs font-bold border-4 border-white dark:border-slate-800">4</span>
+                            <div class="bg-slate-50 dark:bg-slate-700/40 p-4 rounded-2xl border border-slate-200 dark:border-slate-600/50 space-y-2">
+                                <div class="flex flex-wrap items-center justify-between gap-2">
+                                    <h4 class="font-bold text-sm text-amber-600 dark:text-amber-400">Minggu IV Sep - M1 Oktober: Simulasi Final TKA & Pembekalan Mental</h4>
+                                    <span class="px-2.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 text-[10px] font-bold">Fase Final</span>
+                                </div>
+                                <p class="text-xs text-slate-600 dark:text-slate-300">Simulasi waktu, sistem, dan suasana persis TKA sesungguhnya. Pembekalan strategi pengerjaan soal (Pilih soal mudah terlebih dahulu) & Doa bersama.</p>
+                            </div>
+                        </div>
+
+                        <!-- Timeline Item 5 -->
+                        <div class="relative pl-6 md:pl-8">
+                            <span class="absolute -left-3 top-0 w-6 h-6 rounded-full bg-rose-600 text-white flex items-center justify-center text-xs font-bold border-4 border-white dark:border-slate-800"><i class="fas fa-flag-checkered text-[10px]"></i></span>
+                            <div class="bg-rose-50 dark:bg-rose-950/40 p-4 rounded-2xl border border-rose-200 dark:border-rose-900/50 space-y-1">
+                                <h4 class="font-bold text-sm text-rose-700 dark:text-rose-300">Bulan Oktober: Pelaksanaan Tes Kemampuan Akademik (TKA)</h4>
+                                <p class="text-xs text-rose-600 dark:text-rose-400">Pelaksanaan ujian TKA utama sekolah secara serentak.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-8 transition-colors">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
+                <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">
+                    Sistem Dashboard Analisis Strategis TKA & Refleksi Perkembangan Siswa © 2026
+                </p>
+                <p class="text-xs text-slate-500 dark:text-slate-400">
+                    SMAN 2 Bitung • Sulawesi Utara
+                </p>
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-800 rounded-full text-xs text-slate-600 dark:text-slate-300">
+                    <i class="fas fa-code text-blue-500"></i>
+                    <span>Dikembangkan oleh: <strong class="text-slate-800 dark:text-white">Fredynandus Takalamingan, S.Si</strong> (Wakil Kepala Sekolah Bidang Kurikulum)</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        /* Dark Mode Logic */
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const darkIcon = document.getElementById('theme-toggle-dark-icon');
+        const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+        // Check theme on initial load
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            lightIcon.classList.remove('hidden');
+            darkIcon.classList.add('hidden');
+        } else {
+            document.documentElement.classList.remove('dark');
+            darkIcon.classList.remove('hidden');
+            lightIcon.classList.add('hidden');
+        }
+
+        themeToggleBtn.addEventListener('click', function() {
+            darkIcon.classList.toggle('hidden');
+            lightIcon.classList.toggle('hidden');
+
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+            updateChartColors();
+        });
+
+        /* Welcome Screen Navigation */
+        function enterDashboard() {
+            const welcome = document.getElementById('welcome-screen');
+            const main = document.getElementById('main-dashboard');
+            
+            welcome.classList.add('opacity-0');
+            setTimeout(() => {
+                welcome.classList.add('hidden');
+                main.classList.remove('hidden');
+                initCharts();
+            }, 700);
+        }
+
+        /* Smooth Scroll Helper */
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        /* Mobile Menu Toggle */
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        /* Chart Instances */
+        let chartDimensiInst, chartIndikatorInst, chartGenderInst, chartKelasInst;
+
+        function initCharts() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const textColor = isDark ? '#cbd5e1' : '#475569';
+            const gridColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)';
+
+            // 1. Rata-Rata Skor per Dimensi Chart
+            const ctxDimensi = document.getElementById('chartDimensi').getContext('2d');
+            chartDimensiInst = new Chart(ctxDimensi, {
+                type: 'bar',
+                data: {
+                    labels: ['Literasi', 'Numerasi', 'Karakter'],
+                    datasets: [{
+                        label: 'Skor Dimensi',
+                        data: [3.64, 3.30, 4.09],
+                        backgroundColor: ['#3b82f6', '#f97316', '#22c55e'],
+                        borderRadius: 8,
+                        barThickness: 40
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { min: 0, max: 5, ticks: { color: textColor }, grid: { color: gridColor } },
+                        x: { ticks: { color: textColor }, grid: { display: false } }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            // 2. Rata-Rata per Indikator Horizontal Bar Chart
+            const ctxIndikator = document.getElementById('chartIndikator').getContext('2d');
+            chartIndikatorInst = new Chart(ctxIndikator, {
+                type: 'bar',
+                indexAxis: 'y',
+                data: {
+                    labels: [
+                        'Membaca sumber belajar', 'Memahami makna teks', 'Membedakan fakta & opini', 'Menggunakan hasil bacaan',
+                        'Percaya diri dgn angka/grafik', 'Memahami grafik/tabel', 'Perhitungan utk keputusan', 'Ketertarikan hubungan data',
+                        'Menghargai pendapat teman', 'Tepat waktu & hasil terbaik', 'Kontribusi aktif kelompok', 'Kejujuran tugas'
+                    ],
+                    datasets: [{
+                        data: [3.45, 3.70, 3.54, 3.88, 3.29, 3.22, 3.42, 3.27, 4.23, 4.03, 4.05, 4.05],
+                        backgroundColor: [
+                            '#3b82f6','#3b82f6','#3b82f6','#3b82f6',
+                            '#f97316','#f97316','#f97316','#f97316',
+                            '#22c55e','#22c55e','#22c55e','#22c55e'
+                        ],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { min: 0, max: 5, ticks: { color: textColor, stepSize: 1 }, grid: { color: gridColor } },
+                        y: { ticks: { color: textColor, font: { size: 9 } }, grid: { display: false } }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            // 3. Perbandingan Dimensi Berdasarkan Gender Chart
+            const ctxGender = document.getElementById('chartGender').getContext('2d');
+            chartGenderInst = new Chart(ctxGender, {
+                type: 'bar',
+                data: {
+                    labels: ['Literasi', 'Numerasi', 'Karakter'],
+                    datasets: [
+                        { label: 'Laki-laki', data: [3.65, 3.43, 3.97], backgroundColor: '#1e3a8a', borderRadius: 6 },
+                        { label: 'Perempuan', data: [3.64, 3.20, 4.18], backgroundColor: '#f43f5e', borderRadius: 6 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { min: 0, max: 5, ticks: { color: textColor }, grid: { color: gridColor } },
+                        x: { ticks: { color: textColor }, grid: { display: false } }
+                    },
+                    plugins: { legend: { labels: { color: textColor, boxWidth: 12 } } }
+                }
+            });
+
+            // 4. Perbandingan Dimensi Berdasarkan Tingkat Kelas Chart
+            const ctxKelas = document.getElementById('chartKelas').getContext('2d');
+            chartKelasInst = new Chart(ctxKelas, {
+                type: 'bar',
+                data: {
+                    labels: ['Kelas X', 'Kelas XI', 'Kelas XII'],
+                    datasets: [
+                        { label: 'Literasi', data: [3.64, 3.64, 3.64], backgroundColor: '#4ade80', borderRadius: 6 },
+                        { label: 'Numerasi', data: [3.30, 3.32, 3.26], backgroundColor: '#a3e635', borderRadius: 6 },
+                        { label: 'Karakter', data: [4.07, 4.08, 4.14], backgroundColor: '#94a3b8', borderRadius: 6 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { min: 0, max: 5, ticks: { color: textColor }, grid: { color: gridColor } },
+                        x: { ticks: { color: textColor }, grid: { display: false } }
+                    },
+                    plugins: { legend: { labels: { color: textColor, boxWidth: 12 } } }
+                }
+            });
+        }
+
+        function updateChartColors() {
+            if (!chartDimensiInst) return;
+            const isDark = document.documentElement.classList.contains('dark');
+            const textColor = isDark ? '#cbd5e1' : '#475569';
+            const gridColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)';
+
+            [chartDimensiInst, chartIndikatorInst, chartGenderInst, chartKelasInst].forEach(chart => {
+                if (chart) {
+                    if (chart.options.scales.x) {
+                        chart.options.scales.x.ticks.color = textColor;
+                        if (chart.options.scales.x.grid) chart.options.scales.x.grid.color = gridColor;
+                    }
+                    if (chart.options.scales.y) {
+                        chart.options.scales.y.ticks.color = textColor;
+                        if (chart.options.scales.y.grid) chart.options.scales.y.grid.color = gridColor;
+                    }
+                    if (chart.options.plugins.legend && chart.options.plugins.legend.labels) {
+                        chart.options.plugins.legend.labels.color = textColor;
+                    }
+                    chart.update();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
